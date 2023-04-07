@@ -4,9 +4,9 @@ from flask_app.models import user
 
 @app.route('/')
 def index():
-    if "user_id" in session:
-        return redirect('/')
-    return render_template("index.html")
+    # if "user_id" in session:
+    #     return redirect('/')
+    return render_template("base.html")
 
 @app.route('/register', methods=["POST"])
 def register():
