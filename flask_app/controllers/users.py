@@ -6,7 +6,7 @@ from flask_app.models import user
 def index():
     # if "user_id" in session:
     #     return redirect('/')
-    return render_template("base.html")
+    return render_template("home.html")
 
 @app.route('/register', methods=["POST"])
 def register():
