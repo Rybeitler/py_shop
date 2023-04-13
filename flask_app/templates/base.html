@@ -10,15 +10,18 @@
 </head>
 
 <body class="bg-blue-100">
-    <div x-data="showModal1: false" class="flex py-10 justify-center bg-nav content-end bg-cover bg-center rounded-b-lg h-1/4">
+    <div class="flex py-10 justify-center bg-nav content-end bg-cover bg-center rounded-b-lg h-1/4">
         <div class="flex justify-between w-4/5 h-1/3 rounded-lg outline outline-blue-500 bg-slate-700">
             <h2 class="text-7xl text-blue-100 text-white py-3">Py Shop</h2>
             {% if "user_id" in session %}
-            <button
-                class="text-3xl text-blue-100 p-2 rounded bg-slate-700 outline outline-blue-500 hover:bg-slate-600">Logout</button>
+            <div class="flex items-center">
+                <p class="text-3xl text-blue-100 px-2">Welcome {{session['first_name']}}!</p>
+                <button
+                class="text-3xl px-2 text-blue-100 p-2 rounded bg-slate-700 outline outline-blue-500 hover:bg-slate-600" onclick="window.location.href='/logout'">Logout</button>
+            </div>
             {% else %}
             <button
-                class="text-3xl text-blue-100 p-2 rounded bg-slate-700 outline outline-blue-500 hover:bg-slate-600">Login</button>
+                class="text-3xl text-blue-100 p-2 rounded bg-slate-700 outline outline-blue-500 hover:bg-slate-600" id="open-btn">Login</button>
             {% endif %}
         </div>
     </div>
@@ -30,101 +33,69 @@
         <button
             class="text-3xl text-blue-100 p-2 rounded bg-slate-700 outline outline-1 outline-blue-100 mx-2 hover:bg-slate-600">About</button>
     </div>
-    <button
-    class="bg-red-600 font-semibold text-white p-2 w-32 rounded-full hover:bg-red-700 focus:outline-none focus:ring shadow-lg hover:shadow-none transition-all duration-300 m-2"
-    @click="showModal1 = true"
-    >
-    Click here
-    </button>
-    <!-- Modal -->
-    <div class="fixed inset-0 w-full h-full z-20 bg-black bg-opacity-50 duration-300 overflow-y-auto"
-        x-show="showModal1" x-transition:enter="transition duration-300" x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100" x-transition:leave="transition duration-300"
-        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
-        <div class="relative sm:w-3/4 md:w-1/2 lg:w-1/3 mx-2 sm:mx-auto my-10 opacity-100">
-            <div class="relative bg-white shadow-lg rounded-md text-gray-900 z-20" @click.away="showModal1 = false"
-                x-show="showModal1" x-transition:enter="transition transform duration-300"
-                x-transition:enter-start="scale-0" x-transition:enter-end="scale-100"
-                x-transition:leave="transition transform duration-300" x-transition:leave-start="scale-100"
-                x-transition:leave-end="scale-0">
-                <header class="flex items-center justify-between p-2">
-                    <h2 class="font-semibold">Header</h2>
-                    <button class="focus:outline-none p-2" @click="showModal1 = false">
-                        <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                            viewBox="0 0 18 18">
-                            <path
-                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
-                            </path>
-                        </svg>
-                    </button>
-                </header>
-                <main class="p-2 text-center">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam voluptatem, optio dolorem
-                        accusantium fuga
-                        molestias nobis sequi autem ducimus laudantium beatae amet earum, quia reiciendis corporis animi
-                        modi
-                        pariatur impedit!
-                    </p>
-                </main>
-                <footer class="flex justify-center p-2">
-                    <button
-                        class="bg-red-600 font-semibold text-white p-2 w-32 rounded-full hover:bg-red-700 focus:outline-none focus:ring shadow-lg hover:shadow-none transition-all duration-300"
-                        @click="showModal1 = false">
-                        Go back
-                    </button>
-                </footer>
-            </div>
+    <!-- Login Modal -->
+    <div class="fixed hidden inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="login-modal">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white flex flex-col items-center justify-center">
+            <h2 class="text-4xl text-blue-700 text-center py-3">Sign In</h2>
+            <form action="/login" method="post">
+                {% with messages = get_flashed_messages(category_filter=['login']) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="text-red-500">{{message}}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <div class="form-group">
+                    <label for="email" class="sr-only">Email</label>
+                    <input type="email" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="Email Address" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="sr-only">Password</label>
+                    <input type="password" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="Password" name="password">
+                </div>
+                <button type="submit" class="bg-blue-500 text-white font-bold w-full py-3 hover:bg-blue-700">Login</button>
+            </form>
+            <button id="open-reg">Don't have an account?</button>
         </div>
     </div>
-    <!-- <div style="height: 500px">
-        <div class="fixed pin flex items-center">
-            <div class="fixed pin bg-black opacity-75 z-10"></div>
-    
-            <div class="relative mx-6 md:mx-auto w-full md:w-1/2 lg:w-1/3 z-20 m-8">
-                <div class="shadow-lg bg-white rounded-lg p-8">
-                    <div class="flex justify-end mb-6">
-                        <button>
-                            <span class="mr-2">Close</span>
-                            <span>
-                                <i class="fa fa-times"></i>
-                            </span>
-                        </button>
-                    </div>
-    
-                    <h1 class="text-center text-2xl text-green-dark">Login</h1>
-    
-                    <form class="pt-6 pb-2 my-2">
-                        <div class="mb-4">
-                            <label class="block text-sm font-bold mb-2" for="email">
-                                Email Address
-                            </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="email" type="text" placeholder="Email Address">
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-sm font-bold mb-2" for="password">
-                                Password
-                            </label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3" id="password" type="password" placeholder="Password">
-                        </div>
-                        <div class="block md:flex items-center justify-between">
-                            <div>
-                                <button class="bg-green hover:bg-green-dark text-white font-bold py-2 px-4 rounded border-b-4 border-green-darkest" type="button">
-                                    Sign In
-                                </button>
-                            </div>
-    
-                            <div class="mt-4 md:mt-0">
-                                <a href="#" class="text-green no-underline">Forget Password?</a>
-                            </div>
-                        </div>
-                    </form>
+    <!-- register modal -->
+    <div class="fixed hidden inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="register-modal">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white flex flex-col items-center justify-center">
+            <h2 class="text-4xl text-blue-700 text-center py-3">Create Account</h2>
+            <form action="/register" method="post">
+                {% with messages = get_flashed_messages(category_filter=['login']) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="text-red-500">{{message}}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <div class="form-group">
+                    <label for="first_name" class="sr-only">First Name</label>
+                    <input type="text" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="First Name" name="first_name">
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="last_name" class="sr-only">Last Name</label>
+                    <input type="text" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="Last Name" name="last_name">
+                </div>
+                <div class="form-group">
+                    <label for="email" class="sr-only">Email</label>
+                    <input type="email" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="Email Address" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="sr-only">Password</label>
+                    <input type="password" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="Password" name="password">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPasswprd" class="sr-only">Confirm Password</label>
+                    <input type="password" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="Confirm Password" name="confirm_password">
+                </div>
+                <button type="submit" class="bg-blue-500 text-white font-bold w-full py-3 hover:bg-blue-700">Sign Up</button>
+            </form>
         </div>
-    </div> -->
+    </div>
     {% block content %}
     {% endblock content %}
+    <script src="../static/js/script.js"></script>
 </body>
-
 </html>

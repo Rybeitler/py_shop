@@ -8,6 +8,9 @@ def index():
     #     return redirect('/')
     return render_template("home.html")
 
+
+
+
 @app.route('/register', methods=["POST"])
 def register():
     if not user.User.validate_register(request.form):
@@ -15,6 +18,26 @@ def register():
             session[key] = request.form[key] 
         return redirect('/')
     user_id = user.User.register(request.form)
+    logged_in_user = user.User.get_user_by_id(user_id)
     session.clear()
     session['user_id'] = user_id
+    session['first_name'] = logged_in_user
     return redirect('/')
+
+@app.route('/login', methods=["Post"])
+def login():
+    logged_in_user = user.User.validate_login(request.form)
+    if not logged_in_user:
+        for key in request.form:
+            session[key] = request.form[key]
+        return redirect('/')
+    else:
+        session.clear()
+        session["user_id"] = logged_in_user.id
+        session["first_name"] = logged_in_user.first_name
+        return redirect('/')
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")

@@ -50,7 +50,6 @@ class User:
             }
         query = "SELECT * FROM users WHERE email = %(email)s"
         result = connectToMySQL(cls.DB).query_db(query, data)
-        print(f"{result} email")
         if len(result) ==0:
             return False
         else:
@@ -78,3 +77,21 @@ class User:
             flash('Passwords do not match', "confirm_password")
             valid = False
         return valid
+    
+    @staticmethod
+    def validate_login(user):
+        valid = True
+        check_email = User.get_user_by_email(user["email"])
+        if not EMAIL_REGEX.match(user["email"]):
+            valid = False
+            flash("Please enter a valid email", "login")
+        if check_email is False:
+            valid= False
+            flash('Invalid email or password', "login")
+        elif not bcrypt.check_password_hash(check_email.password, user["password"]):
+            valid = False
+            flash('Invalid email or password',  "login")
+        if valid:
+            return check_email
+        else:
+            return valid
