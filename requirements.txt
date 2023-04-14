@@ -1,0 +1,11 @@
+certifi==2022.9.14
+cloudinary==1.32.0
+distlib==0.3.6
+filelock==3.8.0
+pipenv==2022.9.8
+platformdirs==2.5.2
+python-dotenv==1.0.0
+six==1.16.0
+urllib3==1.26.15
+virtualenv==20.16.5
+virtualenv-clone==0.5.7
