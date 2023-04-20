@@ -3,81 +3,92 @@
 
 <div class="flex justify-center content-center">
     <div class="bg-blue-300 w-4/5 my-2 p-5">
+        <div>
+            <h2 class="mb-3 text-center text-4xl">Add a Pie to Menu</h2>
+        </div>
         <div class="rounded-lg outline outline-slate-700 flex">
-            <form action="/pies/add" method="POST" enctype="multipart/form-data">
-                <div>
-                    <label for="image">Image</label>
-                    <input type="file" name="image" accept="*.gif, *.jpg, *.jpeg, *.png" required class="">
-                </div>
-                <div>
-                    <label for="filling">Filling</label>
-                    <input type="text" name="filling" value="{{session['filling']}}" class="">
-                    {% with messages = get_flashed_messages(category_filter = ["filling"]) %}
+            <div class="w-1/2 py-3 px-6 items-center justify-center">
+                <form action="/pies/add" method="POST" enctype="multipart/form-data">
+                    <div class="mb-5">
+                        <label class="text-xl block mb-2" for="image">Image</label>
+                        <input type="file" id="pie-img" name="image" accept="*.gif, *.jpg, *.jpeg, *.png" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-xl block mb-2" for="filling">Filling</label>
+                        <input type="text" name="filling" value="{{session['filling']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        {% with messages = get_flashed_messages(category_filter = ["filling"]) %}
                         {% if messages %}
-                        <div class="" role="alert">
-                            {% for message in messages %}
-                                <p>{{message}}</p>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                    {% endwith %}
-                </div>
-                <div>
-                    <label for="crust">Crust</label>
-                    <input type="text" name="crust" value="{{session['crust']}}" class="">
-                    {% with messages = get_flashed_messages(category_filter = ["crust"]) %}
+                            <div class="text-red-500" role="alert">
+                                {% for message in messages %}
+                                    <p>{{message}}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-xl block mb-2" for="crust">Crust</label>
+                        <input type="text" name="crust" value="{{session['crust']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        {% with messages = get_flashed_messages(category_filter = ["crust"]) %}
                         {% if messages %}
-                        <div class="" role="alert">
-                            {% for message in messages %}
+                            <div class="text-red-500" role="alert">
+                                {% for message in messages %}
+                                    <p>{{message}}</p>
+                                    {% endfor %}
+                            </div>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-xl block mb-2" for="topping">Topping</label>
+                        <input type="text" name="topping" value="{{session['topping']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        {% with messages = get_flashed_messages(category_filter = ["topping"]) %}
+                            {% if messages %}
+                            <div class="text-red-500" role="alert">
+                                {% for message in messages %}
+                                    <p>{{message}}</p>
+                                    {% endfor %}
+                            </div>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-xl block mb-2" for="description">Description</label>
+                        <input type="text" name="description" value="{{session['description']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        {% with messages = get_flashed_messages(category_filter = ["description"]) %}
+                            {% if messages %}
+                            <div class="text-red-500" role="alert">
+                                {% for message in messages %}
                                 <p>{{message}}</p>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                    {% endwith %}
-                </div>
-                <div>
-                    <label for="topping">Topping</label>
-                    <input type="text" name="topping" value="{{session['topping']}}" class="">
-                    {% with messages = get_flashed_messages(category_filter = ["topping"]) %}
-                        {% if messages %}
-                        <div class="" role="alert">
-                            {% for message in messages %}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                    <div class="mb-4">
+                        <label class="text-xl block mb-2" for="price">Price</label>
+                        <input type="number" step="0.01" name="price" value="{{session['price']}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        {% with messages = get_flashed_messages(category_filter = ["price"]) %}
+                            {% if messages %}
+                            <div class="text-red-500" role="alert">
+                                {% for message in messages %}
                                 <p>{{message}}</p>
-                            {% endfor %}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            {% endwith %}
                         </div>
-                        {% endif %}
-                    {% endwith %}
-                </div>
-                <div>
-                    <label for="description">Description</label>
-                    <input type="text" name="description" value="{{session['description']}}" class="">
-                    {% with messages = get_flashed_messages(category_filter = ["description"]) %}
-                        {% if messages %}
-                        <div class="" role="alert">
-                            {% for message in messages %}
-                                <p>{{message}}</p>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                    {% endwith %}
-                </div>
-                <div>
-                    <label for="price">Price</label>
-                    <input type="text" name="price" value="{{session['price']}}" class="">
-                    {% with messages = get_flashed_messages(category_filter = ["price"]) %}
-                        {% if messages %}
-                        <div class="" role="alert">
-                            {% for message in messages %}
-                                <p>{{message}}</p>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                    {% endwith %}
-                </div>
-                <button>submit</button>
-            </form>
+                    <button class="bg-blue-500 text-white font-bold w-full py-3 hover:bg-blue-700">submit</button>
+                </form>
+            </div>
+            <div class="w-1/2 py-3 px-6 items-center justify-center">
+                    <p class="text-center text-2xl my-3">Image Preview</p>
+                    <div class="rounded-lg outline outline-slate-700 h-[36rem]">
+                        <img class="w-full h-full object-cover" id="img-prev">
+                    </div>
+            </div>
         </div>
     </div>
 </div>
-
+<script src="../static/js/imgPrev.js"></script>
 {% endblock content %}

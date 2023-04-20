@@ -42,7 +42,7 @@ def add_pie():
             "description":request.form["description"],
             "price":request.form["price"],
         }
-        cloudinary.uploader.upload(img_to_upload, public_id=data["filling"], unique_filename=False, overwrite=True)
+        cloudinary.uploader.upload(img_to_upload, folder="pyshop", public_id=data["filling"],unique_filename=False, overwrite=True)
         img_url = cloudinary.CloudinaryImage(data["filling"]).build_url()
         data["image"] = img_url
         pie.Pie.create_pie(data)
