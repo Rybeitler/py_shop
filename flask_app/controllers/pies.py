@@ -17,9 +17,10 @@ def menu():
 @app.route("/pies/create")
 def create_pie():
     if "user_id" not in session:
-        return redirect("/menu")
-    
-@app.route('/pies/add')
+        return redirect("/")
+    return render_template("add_pie.html")
+
+@app.route('/pies/add', methods=["POST"])
 def add_pie():
     if "user_id" not in session:
         return redirect('/')
@@ -31,8 +32,9 @@ def add_pie():
         session["price"] = request.form["price"]
         return redirect("/pies/create")
     else:
+        print('here')
         img_to_upload = request.files["image"]
-
+        user_id = session["user_id"]
         data = {
             "crust":request.form["crust"],
             "topping":request.form["topping"],
@@ -41,7 +43,11 @@ def add_pie():
             "price":request.form["price"],
         }
         cloudinary.uploader.upload(img_to_upload, public_id=data["filling"], unique_filename=False, overwrite=True)
-        srcURL = cloudinary.CloudinaryImage(data["filling"]).build_url()
-
+        img_url = cloudinary.CloudinaryImage(data["filling"]).build_url()
+        data["image"] = img_url
+        pie.Pie.create_pie(data)
+        session.clear()
+        session["user_id"] = user_id
+        return redirect("/")
         
     
