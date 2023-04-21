@@ -12,13 +12,16 @@ load_dotenv()
 def menu():
     # if "user_id" in session:
     #     user_data = user.User.get_user_by_id(session["user_id"])
-    return render_template("menu.html")
+    menu = pie.Pie.get_all_pies()
+    return render_template("menu.html", menu=menu)
 
 @app.route("/pies/create")
 def create_pie():
     if "user_id" not in session:
         return redirect("/")
     return render_template("add_pie.html")
+
+
 
 @app.route('/pies/add', methods=["POST"])
 def add_pie():
@@ -48,6 +51,6 @@ def add_pie():
         pie.Pie.create_pie(data)
         session.clear()
         session["user_id"] = user_id
-        return redirect("/")
+        return redirect("/menu")
         
     

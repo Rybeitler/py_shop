@@ -25,6 +25,40 @@ class Pie:
         """
         return connectToMySQL(cls.DB).query_db(query, data)
     
+    @classmethod
+    def get_all_pies(cls):
+        all_pies = []
+        query = "SELECT * FROM pies;"
+        result = connectToMySQL(cls.DB).query_db(query)
+        for row in result:
+            all_pies.append(cls(row))
+        return all_pies
+    
+    @classmethod
+    def get_one_pie(cls, id):
+        query = "SELECT * FROM pies WHERE id= %(id)s;"
+        result = connectToMySQL(cls.DB).query_db(query, id)
+        return cls(result[0])
+    
+    @classmethod
+    def update_pie(cls, data):
+        query="""
+            UPDATE pies
+            SET crust = %(crust)s,
+                topping = %(topping)s,
+                filling = %(filling)s,
+                description = %(description)s,
+                price = %(price)s,
+                image = %(image)s
+            WHERE id = %(id)s;
+            """
+        return connectToMySQL(cls.DB).query_db(query, data)
+
+    @classmethod
+    def delete_pie(cls, id):
+        query = "DELETE FROM pies WHERE id = %(id)s"
+        return connectToMySQL(cls.DB).query_db(query,id)
+
     @staticmethod
     def validate_pie(data):
         valid = True
