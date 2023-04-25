@@ -45,12 +45,21 @@ def add_pie():
             "description":request.form["description"],
             "price":request.form["price"],
         }
-        cloudinary.uploader.upload(img_to_upload, folder="pyshop", public_id=data["filling"],unique_filename=False, overwrite=True)
-        img_url = cloudinary.CloudinaryImage(data["filling"]).build_url()
+        res = cloudinary.uploader.upload(img_to_upload, folder="pyshop", public_id=data["filling"],unique_filename=False, overwrite=True)
+        img_url = res["secure_url"]
         data["image"] = img_url
         pie.Pie.create_pie(data)
         session.clear()
         session["user_id"] = user_id
         return redirect("/menu")
-        
-    
+
+@app.route("/pies/delete/<int:id>")
+def delete_pie(id):
+    if "user_id" in session and session["user_id"] < 3:
+        res = pie.Pie.get_img_to_delete({"id":id})
+        print(res)
+        img_url=res["image"]
+        cloudinary.uploader.destroy(img_url)
+        pie.Pie.delete_pie({"id":id})
+        return redirect('/menu')
+    return redirect("/menu")

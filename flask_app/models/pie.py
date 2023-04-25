@@ -41,6 +41,12 @@ class Pie:
         return cls(result[0])
     
     @classmethod
+    def get_img_to_delete(cls, id):
+        query = "SELECT image FROM pies WHERE id=%(id)s"
+        result = connectToMySQL(cls.DB).query_db(query, id)
+        return result[0]
+
+    @classmethod
     def update_pie(cls, data):
         query="""
             UPDATE pies
