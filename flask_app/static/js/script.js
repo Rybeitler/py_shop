@@ -4,19 +4,24 @@ let btn = document.getElementById("open-btn");
 let reg_btn = document.getElementById("open-reg")
 let button = document.getElementById("ok-btn");
 
+
+
 btn.onclick = function() {
     login_modal.style.display = "block";
 }
 reg_btn.onclick = function() {
     reg_modal.style.display = "block";
 }
-// We want the modal to close when the OK button is clicked
-// button.onclick = function() {
-// modal.style.display = "none";
-// }
+
 window.onclick = function(event) {
     if (event.target == login_modal || event.target==reg_modal) {
     login_modal.style.display = "none";
     reg_modal.style.display = "none"
     }
+    if (event.target == cartCanvas){
+        cartCanvas.style.display = "none";
+    }
 }
+
+
+
