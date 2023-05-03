@@ -5,7 +5,6 @@ let reg_btn = document.getElementById("open-reg")
 let button = document.getElementById("ok-btn");
 
 
-
 btn.onclick = function() {
     login_modal.style.display = "block";
 }

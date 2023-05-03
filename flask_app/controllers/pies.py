@@ -1,5 +1,5 @@
 from flask_app import app
-from flask import render_template, redirect, session, request
+from flask import render_template, redirect, session, request, flash
 from flask_app.models import user, pie
 
 import cloudinary
@@ -62,4 +62,37 @@ def delete_pie(id):
         cloudinary.uploader.destroy(img_url)
         pie.Pie.delete_pie({"id":id})
         return redirect('/menu')
+    return redirect("/menu")
+
+@app.route("/add_to_cart/<filling>/<float:price>/<int:id>", methods=["POST"])
+def add_to_cart(filling, price, id):
+    if "cart" not in session:
+        cart=[]
+    else:
+        cart= session["cart"]
+    
+    parse_pie={
+        "id":id,
+        "filling":filling,
+        "price":price,
+        "quantity":int(request.form["quantity"])
+    }
+
+    if not any(_pie["filling"] == parse_pie["filling"] for _pie in cart):
+        cart.append(parse_pie)
+    else:
+        for pie in cart:
+            if pie["filling"] == parse_pie["filling"]:
+                pie["quantity"] += parse_pie["quantity"]
+                break
+
+    subtotal = 0
+    for pie in cart:
+        subtotal += (pie["price"] * pie["quantity"])
+
+    session["cart"] = cart
+    session["subtotal"] = subtotal
+
+    flash(f"{parse_pie['quantity']} {parse_pie['filling']} pie(s) were added to cart", "cart_update")
+    print(f"{cart}")
     return redirect("/menu")
