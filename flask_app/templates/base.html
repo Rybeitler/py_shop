@@ -47,7 +47,7 @@
                 {% endwith %}
                 <div class="form-group">
                     <label for="email" class="sr-only">Email</label>
-                    <input type="email" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="Email Address" name="email">
+                    <input type="email" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="Email Address" name="email" value="{{session['email']}}">
                 </div>
                 <div class="form-group">
                     <label for="password" class="sr-only">Password</label>
@@ -62,8 +62,8 @@
     <div class="fixed hidden inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="register-modal">
         <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white flex flex-col items-center justify-center">
             <h2 class="text-4xl text-blue-700 text-center py-3">Create Account</h2>
-            <form action="/register" method="post">
-                {% with messages = get_flashed_messages(category_filter=['login']) %}
+            <form action="/register" method="post" class="w-full">
+                {% with messages = get_flashed_messages(category_filter=['register']) %}
                     {% if messages %}
                         {% for message in messages %}
                             <p class="text-red-500">{{message}}</p>
@@ -72,15 +72,15 @@
                 {% endwith %}
                 <div class="form-group">
                     <label for="first_name" class="sr-only">First Name</label>
-                    <input type="text" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="First Name" name="first_name">
+                    <input type="text" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="First Name" name="first_name" value="{{session['first_name']}}">
                 </div>
                 <div class="form-group">
                     <label for="last_name" class="sr-only">Last Name</label>
-                    <input type="text" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="Last Name" name="last_name">
+                    <input type="text" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="Last Name" name="last_name" value="{{session['last_name']}}">
                 </div>
                 <div class="form-group">
                     <label for="email" class="sr-only">Email</label>
-                    <input type="email" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="Email Address" name="email">
+                    <input type="email" class="border border-solid border-grey-400 rounded px-2 py-3" placeholder="Email Address" name="email" value="{{session['email']}}">
                 </div>
                 <div class="form-group">
                     <label for="password" class="sr-only">Password</label>
@@ -103,6 +103,19 @@
     </div>
     {% block content %}
     {% endblock content %}
+
+    {% if session['open_login'] %}
+        <script>
+            let login = document.getElementById("login-modal");
+            login.style.display = "block";
+        </script>
+    {% endif %}
+    {% if session['open_register'] %}
+    <script>
+        let reg = document.getElementById("register-modal");
+        reg.style.display = "block";
+    </script>
+    {% endif %}
     <script src="../static/js/script.js"></script>
 </body>
 </html>

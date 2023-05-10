@@ -16,6 +16,7 @@ def register():
     if not user.User.validate_register(request.form):
         for key in request.form:
             session[key] = request.form[key] 
+        session["open_register"] = True
         return redirect('/')
     user_id = user.User.register(request.form)
     logged_in_user = user.User.get_user_by_id(user_id)
@@ -30,6 +31,7 @@ def login():
     if not logged_in_user:
         for key in request.form:
             session[key] = request.form[key]
+        session["open_login"] = True
         return redirect('/')
     else:
         session.clear()
