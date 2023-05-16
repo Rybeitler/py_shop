@@ -62,13 +62,16 @@
 
 <!--cart modal-->
 <div class="fixed hidden inset-0 bg-blue-400 bg-opacity-50 overflow-y-auto h-full w-full" id="cart-canvas">
-    <div class="relative top-20 mx-auto p-5 border w-2/3 h-1/2 shadow-lg rounded-md bg-white flex flex-col items-center justify-center">
+    <div class="relative top-20 mx-auto p-5 border w-2/3 h-1/2 shadow-lg rounded-md bg-white flex flex-col items-center justify-between">
         <h2 class="text-4xl text-blue-700 text-center py-3">Your Cart</h2>
         {% for item in session["cart"] %}
-            <div>
+            <div class='flex'>
                 <p>{{item['filling']}}</p>
                 <p>{{item['quantity']}}</p>
                 <p>{{"$%.2f"|format(item['price'] * item['quantity'])}}</p>
+                <button>-</button>
+                <button>+</button>
+                <a href="/remove_from_cart/{{item['id']}}">x</a>
             </div>
         {% endfor %}
         <div>
@@ -77,5 +80,11 @@
     </div>
 </div>
 
+{% if session['open_cart'] %}
+<script>
+    let cart = document.getElementById("cart-canvas");
+    cart.style.display = "block";
+</script>
+{% endif %}
 <script src="../static/js/cart.js"></script>
 {% endblock content %}

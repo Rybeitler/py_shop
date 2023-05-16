@@ -96,3 +96,19 @@ def add_to_cart(filling, price, id):
     flash(f"{parse_pie['quantity']} {parse_pie['filling']} pie(s) were added to cart", "cart_update")
     print(f"{cart}")
     return redirect("/menu")
+
+@app.route("/remove_from_cart/<int:id>")
+def remove_from_cart(id):
+    cart = session['cart']
+    print(cart, id)
+    # for i in range(len(session['cart'])):
+    #     print(type(session['cart'][i]['id']))
+    #     print(type(id))
+    #     if session['cart'][i]['id'] == id:
+    #         print('match!')
+    #         cart.pop(i)
+    #         break
+    cart[:] = [x for x in cart if x.get('id') != id]
+    print(cart)
+    session['open_cart'] = True
+    return redirect("/menu")
