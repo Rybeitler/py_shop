@@ -12,6 +12,9 @@ load_dotenv()
 def menu():
     # if "user_id" in session:
     #     user_data = user.User.get_user_by_id(session["user_id"])
+    session['open_cart'] = False
+    session['open_login'] = False
+    session['open_register'] = False
     menu = pie.Pie.get_all_pies()
     return render_template("menu.html", menu=menu)
 
@@ -35,7 +38,6 @@ def add_pie():
         session["price"] = request.form["price"]
         return redirect("/pies/create")
     else:
-        print('here')
         img_to_upload = request.files["image"]
         user_id = session["user_id"]
         data = {
@@ -74,6 +76,7 @@ def add_to_cart(filling, price, id):
     parse_pie={
         "id":id,
         "filling":filling,
+
         "price":price,
         "quantity":int(request.form["quantity"])
     }
@@ -100,7 +103,6 @@ def add_to_cart(filling, price, id):
 @app.route("/remove_from_cart/<int:id>")
 def remove_from_cart(id):
     cart = session['cart']
-    print(cart, id)
     # for i in range(len(session['cart'])):
     #     print(type(session['cart'][i]['id']))
     #     print(type(id))
@@ -109,6 +111,10 @@ def remove_from_cart(id):
     #         cart.pop(i)
     #         break
     cart[:] = [x for x in cart if x.get('id') != id]
-    print(cart)
+    subtotal = 0
+    for item in cart:
+        subtotal += (item["price"] * item["quantity"])
+    session["subtotal"] = subtotal
     session['open_cart'] = True
-    return redirect("/menu")
+    menu = pie.Pie.get_all_pies()
+    return render_template("menu.html", menu=menu)

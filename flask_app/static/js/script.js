@@ -17,9 +17,9 @@ window.onclick = function(event) {
     login_modal.style.display = "none";
     reg_modal.style.display = "none"
     }
-    // if (event.target == cartCanvas){
-    //     cartCanvas.style.display = "none";
-    // }
+    if (event.target == cartCanvas){
+        cartCanvas.style.display = "none";
+    }
 }
 
 

@@ -7,6 +7,6 @@ cartBtn.onclick = function(){
 
 window.onclick = function(event) {
     if (event.target == cartCanvas) {
-    cartCanvas.style.display = "none";
+        cartCanvas.style.display = "none";
     }
 }

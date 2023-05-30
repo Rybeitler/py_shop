@@ -5,7 +5,9 @@ from flask_app.models import user
 @app.route('/')
 def index():
     # if "user_id" in session:
-    #     return redirect('/')
+    session['open_cart'] = False
+    session['open_login'] = False
+    session['open_register'] = False
     return render_template("home.html")
 
 
@@ -17,7 +19,7 @@ def register():
         for key in request.form:
             session[key] = request.form[key] 
         session["open_register"] = True
-        return redirect('/')
+        return render_template("home.html")
     user_id = user.User.register(request.form)
     logged_in_user = user.User.get_user_by_id(user_id)
     session.clear()
@@ -32,7 +34,7 @@ def login():
         for key in request.form:
             session[key] = request.form[key]
         session["open_login"] = True
-        return redirect('/')
+        return render_template("home.html")
     else:
         session.clear()
         session["user_id"] = logged_in_user.id
