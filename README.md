@@ -1,7 +1,7 @@
 # py_shop
 
 
-![alt text](/client/src/images/readme.gif "HarvestThyme")
+![alt text](/flask_app/static/images/gif.gif "PyShop")
 
 ## Py Shop
 This is a simple python app, using a MySQL database. I made it to utilize some of the things I learned in creating react apps, and translate them to python. I also wanted to try a new framework, TailwindCss for design.
